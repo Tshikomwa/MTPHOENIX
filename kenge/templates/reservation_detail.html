@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de la Réservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+
+        table td {
+            color: #555;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #b02a37;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Détails de la Réservation</h1>
+        <table>
+            <tr>
+                <th>Nom du client</th>
+                <td>{{ reservation.nom_du_client }}</td>
+            </tr>
+            <tr>
+                <th>Adresse du client</th>
+                <td>{{ reservation.adresse_client }}</td>
+            </tr>
+            <tr>
+                <th>Téléphone du client</th>
+                <td>{{ reservation.telephone_client }}</td>
+            </tr>
+            <tr>
+                <th>Email du client</th>
+                <td>{{ reservation.email_client }}</td>
+            </tr>
+            <tr>
+                <th>Nom de la chambre</th>
+                <td>{{ reservation.chambre.nom_de_la_chambre }}</td>
+            </tr>
+            <tr>
+                <th>Date de réservation</th>
+                <td>{{ reservation.date }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de jours</th>
+                <td>{{ reservation.nombre_de_jours }}</td>
+            </tr>
+            <tr>
+                <th>Montant payé</th>
+                <td>{{ reservation.montant_paye }} $</td>
+            </tr>
+            <tr>
+                <th>Date de création</th>
+                <td>{{ reservation.date_creation }}</td>
+            </tr>
+        </table>
+
+        <div class="actions">
+            <a href="{% url 'generate_pdf' reservation_id=reservation.id %}" target="_blank" class="btn btn-primary">Facture</a>
+            <a href="{% url 'reservations_par_date' %}" class="btn">Statistiques</a>
+            <a href="{% url 'reservation_update' reservation.id %}" class="btn">Modifier</a>
+            <a href="{% url 'reservation_delete' reservation.id %}" class="btn btn-danger">Supprimer</a>
+            <a href="{% url 'liste' %}" class="btn">Retour à la liste</a>
+        </div>
+    </div>
+</body>
+</html>

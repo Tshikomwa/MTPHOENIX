@@ -1,0 +1,259 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Historique des reservations</title>
+
+  <!-- Liens CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/maicons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/animate/animate.css' %}">
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .header p {
+      margin: 5px 0 0;
+      font-size: 1.2rem;
+    }
+
+    .table-container {
+      margin: 20px auto;
+      max-width: 90%;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .search-bar input {
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .search-bar button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .search-bar button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    th {
+      background-color: #007bff;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .total-row {
+      background-color: #f1f1f1;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .date-sortie {
+      color: red;
+    }
+
+    /* Flèches de navigation */
+    .scroll-arrow {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .scroll-arrow a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      text-decoration: none;
+      font-size: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s;
+    }
+
+    .scroll-arrow a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <!-- Entête -->
+  <div class="header">
+    <h1>Historique des Réservations</h1>
+    <p>Consultez l'historique des réservations, le total payé et les détails.</p>
+  </div>
+
+  <!-- Barre de recherche -->
+  <div class="table-container">
+    <div class="search-bar">
+      <!-- Recherche par date avec Flatpickr -->
+      <input type="text" id="searchDate" placeholder="Rechercher par date" class="form-control flatpickr">
+      <!-- Recherche par nom -->
+      <input type="text" id="searchName" placeholder="Rechercher par nom" class="form-control">
+      <!-- Bouton pour lancer la recherche -->
+      <button class="btn btn-primary" onclick="filterTable()">Rechercher</button>
+    </div>
+
+    <!-- Flèches de navigation -->
+    <div class="scroll-arrow">
+      <a id="scrollUp" href="#">⬆</a>
+      <a id="scrollDown" href="#">⬇</a>
+    </div>
+
+    <!-- Tableau -->
+    <table class="table table-bordered table-hover" id="reservationTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Nom de la Chambre</th>
+          <th>Nom du Client</th>
+          <th>Adresse</th>
+          <th>Téléphone</th>
+          <th>E-mail</th>
+          <th>Nombre de Jours</th>
+          <th>Montant Payé ($)</th>
+          <th>Date de Sortie</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for date, data in grouped_with_lengths.items %}
+          <tr>
+            <td rowspan="{{ data.rowspan }}" class="align-middle">{{ date }}</td>
+            {% for item in data.reservations %}
+              {% if not forloop.first %}
+              <tr>
+              {% endif %}
+              <td>{{ item.reservation.chambre.nom_de_la_chambre }}</td>
+              <td>{{ item.reservation.nom_du_client }}</td>
+              <td>{{ item.reservation.adresse_client }}</td>
+              <td>{{ item.reservation.telephone_client }}</td>
+              <td>{{ item.reservation.email_client }}</td>
+              <td>{{ item.reservation.nombre_de_jours }}</td>
+              <td>${{ item.reservation.montant_paye }}</td>
+              <td class="date-sortie">{{ item.date_sortie }}</td>
+              <td>
+                {% if item.reservation.id %}
+                    <a href="{% url 'reservation_detail' item.reservation.id %}">Facturation</a>
+                {% else %}
+                    <span>Non disponible</span>
+                {% endif %}
+                </td>
+            
+              </tr>
+            {% endfor %}
+          <tr class="total-row">
+            <td colspan="3">Total pour {{ date }}</td>
+            <td colspan="2">${{ data.total }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a class="back-link1" href="{% url 'liste' %}">Retour</a>
+  </div>
+
+  <!-- Flatpickr -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    // Initialisation de Flatpickr
+    flatpickr("#searchDate", {
+      dateFormat: "Y-m-d", // Format de date (AAAA-MM-JJ)
+      allowInput: true,
+      locale: "fr" // Pour afficher en français
+    });
+
+    // Normalisation des dates pour la comparaison
+    function normalizeDate(dateString) {
+      const parts = dateString.split("/");
+      if (parts.length === 3) {
+        return `${parts[2]}-${parts[1]}-${parts[0]}`; // Retourne au format "YYYY-MM-DD"
+      }
+      return dateString;
+    }
+
+    // Filtrer le tableau
+    function filterTable() {
+      const dateInput = document.getElementById("searchDate").value.trim();
+      const nameInput = document.getElementById("searchName").value.toLowerCase();
+      const table = document.getElementById("reservationTable");
+      const rows = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+
+        if (cells.length > 1) {
+          const dateCell = cells[0]?.textContent.trim() || ""; // Date dans la première colonne
+          const nameCell = cells[2]?.textContent.toLowerCase() || ""; // Nom dans la troisième colonne
+
+          const isDateMatch = dateInput === "" || normalizeDate(dateCell) === dateInput;
+          const isNameMatch = nameInput === "" || nameCell.includes(nameInput);
+
+          if (isDateMatch && isNameMatch) {
+            rows[i].style.display = ""; // Affiche la ligne
+          } else {
+            rows[i].style.display = "none"; // Cache la ligne
+          }
+        }
+      }
+    }
+
+    // Navigation avec flèches
+    document.getElementById("scrollUp").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("scrollDown").addEventListener("click", () => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>

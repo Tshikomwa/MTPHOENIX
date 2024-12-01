@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="copyright" content="MACode ID, https://macodeid.com/">
+    <title>Liste des Chambres</title>
+
+    <!-- Liens CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/maicons.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/animate/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/owl-carousel/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/fancybox/css/jquery.fancybox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Page Header */
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #0066cc;
+            font-weight: 700;
+        }
+
+        /* Table styles */
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0066cc;
+            color: white;
+        }
+                /* Ajout d'un effet de survol pour l'agrandissement des photos */
+        table td img {
+            width: 100px;  /* Taille initiale de l'image */
+            height: 100px; /* Taille initiale de l'image */
+            transition: all 0.3s ease;  /* Transition fluide pour l'agrandissement */
+            border-radius: 8px;  /* Coins arrondis pour l'image */
+        }
+
+        table td img:hover {
+            transform: scale(1.5);  /* Agrandissement de l'image au survol */
+            cursor: pointer;  /* Change le curseur pour indiquer l'interaction */
+        }
+
+        /* Idem pour les QR Codes */
+        table td .qrcode {
+            width: 100px;  /* Taille initiale du QR code */
+            height: 100px; /* Taille initiale du QR code */
+            transition: all 0.3s ease;  /* Transition fluide pour l'agrandissement */
+            border-radius: 8px;  /* Coins arrondis pour le QR code */
+        }
+
+        table td .qrcode:hover {
+            transform: scale(1.5);  /* Agrandissement du QR code au survol */
+            cursor: pointer;  /* Change le curseur pour indiquer l'interaction */
+        }
+
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Button style */
+        .btn1 {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .btn1:hover {
+            background-color: #004080;
+        }
+                /* Button style */
+        .btn2 {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .btn2:hover {
+            background-color: #004080;
+        }
+        .btn3 {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #e62208;
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            justify-content: center;
+            font-size: 16px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .btn3:hover {
+            background-color: #e47777;
+        }
+
+        /* Image style in table */
+        td img {
+            width: 80px; /* Set width for images */
+            height: 80px; /* Set height for images */
+            object-fit: cover; /* Ensures images cover the area without distorting */
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+                /* Flèches de navigation */
+        .scroll-arrow {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        }
+
+        .scroll-arrow a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 50%;
+        text-decoration: none;
+        font-size: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s;
+        }
+
+        .scroll-arrow a:hover {
+        background-color: #84b1e2;
+        }
+
+    </style>
+
+</head>
+<body>
+        <!-- Flèches de navigation -->
+        <div class="scroll-arrow">
+            <a id="scrollUp" href="#">⬆</a>
+            <a id="scrollDown" href="#">⬇</a>
+        </div>
+
+    <!-- Page Header -->
+    <h1>LISTE DE NOS CHAMBRES</h1>
+    <!-- Table with chambre list -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nom de la Chambre</th>
+                <th>Date d'Enregistrement</th>
+                <th>Code</th>
+                <th>Photo</th>
+                <th>QR Code</th>
+                <th>Actions</th> <!-- Nouvelle colonne -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for chambre in chambres %}
+                <tr>
+                    <td>{{ chambre.nom_de_la_chambre }}</td>
+                    <td>{{ chambre.date_enregistrement }}</td>
+                    <td>{{ chambre.code }}</td>
+                    <!-- Affichage de l'image de la photo -->
+                    <td><img src="{{ chambre.photo.url }}" alt="Photo de la chambre" class="img-fluid"></td>
+                    <!-- Affichage du QR code avec une classe pour appliquer l'effet -->
+                    <td><img src="{{ chambre.qrcode.url }}" alt="QR Code" class="qrcode"></td>
+                    <td>
+                        <!-- Boutons d'action -->
+                        <a href="{% url 'reservation_form' chambre.id %}" class="btn2 btn-reserver btn-sm">Réserver</a>
+                        <a href="{% url 'mettre_a_jour' chambre.id %}" class="btn2 btn-mettre-a-jour btn-sm">Mettre à jour</a>
+                        <a href="{% url 'supprimer' chambre.id %}" class="btn2 btn-supprimer btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer cette chambre ?');">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>     
+    </table>
+    <div class="button-container">
+        <a href="{% url 'reservations_par_date' %}" class="btn1">Statistiques</a>
+        <a href="{% url 'ajouter' %}" class="btn3">Retour</a>
+    </div> 
+
+    <script>    
+        // Navigation avec flèches
+        document.getElementById("scrollUp").addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    
+        document.getElementById("scrollDown").addEventListener("click", () => {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+        });
+    </script>
+        
+    
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/owl-carousel/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'vendor/wow/wow.min.js' %}"></script>
+    <script src="{% static 'vendor/fancybox/js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
+</body>
+</html>
+

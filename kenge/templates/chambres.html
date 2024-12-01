@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Chambres</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #2208b4;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        h1, h2 {
+            color: #01050d;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f1f1f1;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #100357;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #1981c6;
+        }
+        form {
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin: 0.5rem 0;
+        }
+        select, input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #17055f;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #3707e5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Réservation</h1>
+    </header>
+    <main>
+        <h2>Nos Chambres Disponibles</h2>
+        <ul>
+            {% for chambre in chambres %}
+                <li>{{ chambre.numero }} - {{ chambre.type_chambre }} - {{ chambre.prix }}$/nuit</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Réserver une Chambre</h2>
+        <form method="POST" action="{% url 'creer_reservation' %}">
+            {% csrf_token %}
+            <label for="chambre">Nom de la Chambre :</label>
+            <select id="chambre" name="chambre">
+                <option value="Rose">Rose</option>
+                <option value="Tulipe">Tulipe</option>
+                <option value="Orchidée">Orchidée</option>
+                <option value="Lys">Lys</option>
+                <option value="Magnolia">Magnolia</option>
+                <option value="Violette">Violette</option>
+                <option value="Dahlia">Dahlia</option>
+                <option value="Pivoine">Pivoine</option>
+                <option value="Iris">Iris</option>
+                <option value="Chrysanthème">Chrysanthème</option>
+                <option value="Jonquille">Jonquille</option>
+                <option value="Anémone">Anémone</option>
+                <option value="Bleuet">Bleuet</option>
+                <option value="Coquelicot">Coquelicot</option>
+                <option value="Jasmin">Jasmin</option>
+                <option value="Hibiscus">Hibiscus</option>
+                <option value="Glycine">Glycine</option>
+                <option value="Azalée">Azalée</option>
+                <option value="Camélia">Camélia</option>
+                <option value="Freesia">Freesia</option>
+            </select>
+
+            <label for="client">Nom du Client :</label>
+            <input type="text" id="client" name="client" placeholder="Entrez le nom du client" required>
+
+            <input type="submit" value="Réserver">
+        </form>
+    </main>
+</body>
+</html>

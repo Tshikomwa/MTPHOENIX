@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="copyright" content="MACode ID, https://macodeid.com/">
+    <title>Hôtel & Restaurant - MT Phoenix, Kolwezi</title>
+
+    <!-- Liens CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/maicons.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/animate/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/owl-carousel/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/fancybox/css/jquery.fancybox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #c4d1df;
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        /* Form container */
+        .form-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .form-container h1 {
+            color: #0066cc;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .form-container form {
+            margin-bottom: 20px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .form-container button:hover {
+            background: #004080;
+        }
+
+        .form-container a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .form-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer styles */
+        footer {
+            background: #333;
+            color: #f8f9fa;
+            padding: 20px 0;
+        }
+
+        footer .page-footer h3 {
+            color: #f8f9fa;
+        }
+
+        footer .footer-menu li {
+            list-style: none;
+        }
+
+        footer .footer-menu li a {
+            color: #f8f9fa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        footer .footer-menu li a:hover {
+            color: #17a2b8;
+        }
+
+        footer .sosmed-button a {
+            color: #f8f9fa;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        footer .sosmed-button a:hover {
+            color: #17a2b8;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            footer .sosmed-button a {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Form Section -->
+    <div class="form-container">
+        <h1>Gestion des chambres_Ajouter</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Enregistrer</button>
+        </form>
+        <a href="{% url 'acces' %}" class="btn">Retour</a>
+        <a href="{% url 'liste' %}" class="btn">Liste</a>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 py-3">
+                    <h3>MT <span class="fg-primary">PHOENIX</span></h3>
+                </div>
+                <div class="col-lg-3 py-3">
+                    <h5>Contact</h5>
+                    <p>Derrière la grande route de KAZEMBE, Joli Site, Kolwezi, République Démocratique du Congo.</p>
+                    <p>Email: <a href="mailto:contact@mtphoenix.com">contact@mtphoenix.com</a></p>
+                    <p>Phone: <a href="tel:+243994473711">+243994473711</a></p>
+                </div>
+                <div class="col-lg-3 py-3">
+                    <h5>Notre Société</h5>
+                    <ul class="footer-menu">
+                        <li><a href="{% url 'career' %}">Carrières</a></li>
+                        <li><a href="{% url 'resources' %}">Ressources</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 py-3 text-center">
+                    <img src="{% static 'img/logo 2.png' %}" alt="Logo MT PHOENIX" class="img-fluid">              
+                </div>
+            </div>
+            <hr>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <p>Copyright 2024. by 
+                       <a href="https://ww.migsarl.network" style="color: #17a2b8;">MUTANDA IHEMBA Growing</a>
+                    </p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="sosmed-button">
+                        <a href="#"><span class="mai-logo-facebook-f"></span></a>
+                        <a href="#"><span class="mai-logo-twitter"></span></a>
+                        <a href="#"><span class="mai-logo-youtube"></span></a>
+                        <a href="#"><span class="mai-logo-linkedin"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/owl-carousel/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'vendor/wow/wow.min.js' %}"></script>
+    <script src="{% static 'vendor/fancybox/js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
+</body>
+</html>
